@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 
 import "./App.css";
@@ -7,16 +7,34 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoicG1vZGF2aXMiLCJhIjoiY2twZDAzam80MGl4eDJucjNja3F0eWt6YyJ9.pDCggo-HzdU4pDYxaUT3Tw";
 
 const Map = () => {
-  const mapContainerRef = useRef(null);
+  const [longitude, setLongitude] = useState(-95.712891);
+  const [latitude, setLatitude] = useState(37.09024);
+  const [zoom, setZoom] = useState(2);
 
-  // initialize map when component mounts
+  const setCoordinates = async () => {
+    const location = await getCoordinates();
+    setZoom(12.5);
+    setLongitude(location.coords.longitude);
+    setLatitude(location.coords.latitude);
+  };
+
+  const getCoordinates = () => {
+    return new Promise((resolve, reject) => {
+      window.navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  };
+
   useEffect(() => {
+    makeMap(zoom);
+  }, [longitude, latitude]);
+
+  const makeMap = (magnify) => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       // See style options here: https://docs.mapbox.com/api/maps/#styles
       style: "mapbox://styles/pmodavis/ckpd0ay8v0efr17pceg1fgbe9",
-      center: [-104.9876, 39.7405],
-      zoom: 12.5,
+      center: [longitude, latitude],
+      zoom: magnify,
     });
 
     // add navigation control (the +/- zoom buttons)
@@ -24,11 +42,22 @@ const Map = () => {
 
     // clean up on unmount
     return () => map.remove();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  };
+
+  const mapContainerRef = useRef(null);
+
+  // initialize map when component mounts
+  // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="d-flex justify-content-center mt-3">
-      <div className="map-container" ref={mapContainerRef} />
+    <div className="">
+      <div className="text-center">
+        <button onClick={() => setCoordinates()}>Get Encounters</button>
+      </div>
+
+      <div className="d-flex justify-content-center mt-3">
+        <div className="map-container" ref={mapContainerRef} />
+      </div>
     </div>
   );
 };
