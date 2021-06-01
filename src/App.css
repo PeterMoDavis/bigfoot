@@ -19,3 +19,7 @@ button:active {
   transform: translateY(3px);
   box-shadow: 0 3px 3px gray;
 }
+
+.mapboxgl-ctrl {
+  opacity: 0;
+}

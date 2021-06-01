@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { GeolocateControl } from "mapbox-gl";
 
 import "./App.css";
 
@@ -12,16 +12,8 @@ const Map = () => {
   const [zoom, setZoom] = useState(2);
 
   const setCoordinates = async () => {
-    const location = await getCoordinates();
-    setZoom(12.5);
-    setLongitude(location.coords.longitude);
-    setLatitude(location.coords.latitude);
-  };
-
-  const getCoordinates = () => {
-    return new Promise((resolve, reject) => {
-      window.navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
+    let geoButton = document.querySelector(".mapboxgl-ctrl-geolocate");
+    geoButton.dispatchEvent(new Event("click"));
   };
 
   useEffect(() => {
@@ -33,13 +25,23 @@ const Map = () => {
       container: mapContainerRef.current,
       // See style options here: https://docs.mapbox.com/api/maps/#styles
       style: "mapbox://styles/pmodavis/ckpd0ay8v0efr17pceg1fgbe9",
+
       center: [longitude, latitude],
       zoom: magnify,
     });
 
     // add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
-
+    map.addControl(new mapboxgl.GeolocateControl(), "bottom-left", {
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      fitBoundsOptions: {
+        maxZoom: 15,
+      },
+      showAccuracyCircle: true,
+      trackUserLocation: true,
+    });
     // clean up on unmount
     return () => map.remove();
   };
