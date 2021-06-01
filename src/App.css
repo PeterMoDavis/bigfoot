@@ -6,3 +6,16 @@
   left: 0;
   right: 0;
 }
+
+button {
+  border: black solid 1px;
+  background-color: white;
+  padding: 10px 10px;
+  box-shadow: 0 10px 10px gray;
+  transition: all 0.1s;
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 3px gray;
+}
