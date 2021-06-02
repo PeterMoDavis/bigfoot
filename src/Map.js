@@ -32,14 +32,14 @@ const Map = () => {
         console.log(data);
       })
       .then(() => {
-        makeMap(zoom);
+        makeMap();
       });
     console.log(bigfootSightings);
   };
 
   const getCoordinates = () => {
     return new Promise((resolve, reject) => {
-      window.navigator.geolocation.getCurrentPosition(resolve, reject);
+      navigator.geolocation.getCurrentPosition(resolve, reject);
     });
   };
 
@@ -48,14 +48,14 @@ const Map = () => {
     const audio = new Audio(roar);
     const click = new Event("click");
     locationButton.dispatchEvent(click);
-    document.querySelector("body").style.backgroundColor = "red";
+    document.querySelector("body").style.backgroundColor = "#830303";
     document.querySelector("button").innerText = "Loading...";
     document.querySelector("#bigfoot").style.display = "block";
     document.querySelector("#bigfoot").style.opacity = "0";
     document.querySelector("#bigfoot").style.opacity = ".8";
 
     const location = await getCoordinates();
-
+    document.querySelector("body").classList.add("shake");
     document.querySelector("button").innerText = "Here we are.";
     document.querySelector("#bigfoot").style.opacity = ".0";
     audio.play();
@@ -63,22 +63,23 @@ const Map = () => {
       document.querySelector("button").innerText = "Get Encounters";
       document.querySelector("body").style.backgroundColor = "white";
       document.querySelector("#bigfoot").style.display = "none";
+      document.querySelector("body").classList.remove("shake");
     }, 3000);
     console.log(bigfootSightings);
   };
 
-  useEffect(async () => {
-    await getBigfoot();
+  useEffect(() => {
+    getBigfoot();
     console.log(bigfootSightings);
   }, []);
 
-  const makeMap = (magnify, lat = -95.712891, lon = 37.09024) => {
+  const makeMap = () => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       // See style options here: https://docs.mapbox.com/api/maps/#styles
       style: "mapbox://styles/pmodavis/ckpeh637y08xj18qrb14covxq",
-      center: [lat, lon],
-      zoom: magnify,
+      center: [-95.712891, 37.09024],
+      zoom: 3,
     });
 
     bigfootSightings.forEach(function (marker) {
@@ -125,9 +126,15 @@ const Map = () => {
       <div className="text-center">
         <button onClick={() => userPosition()}>Get Encounters</button>
       </div>
-
-      <div className="map-container mt-3" ref={mapContainerRef} />
-      <img src={bigfoot} alt="" id="bigfoot" />
+      <div className="bigfoot-parent">
+        <span>
+          <div
+            className="map-container mt-3 d-flex flex-column justify-content-center align-content-center"
+            ref={mapContainerRef}
+          />
+        </span>
+        <img src={bigfoot} alt="" id="bigfoot" />
+      </div>
     </div>
   );
 };

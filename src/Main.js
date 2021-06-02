@@ -21,8 +21,10 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <div className="d-flex justify-content-center">
-          <h1 style={this.styles.header}>BIGFOOT ENCOUNTERS</h1>
+        <div className="d-flex flex-column flex-sm-row justify-content-center ">
+          <h1 className="text-center" style={this.styles.header}>
+            BIGFOOT ENCOUNTERS
+          </h1>
         </div>
       </div>
     );
