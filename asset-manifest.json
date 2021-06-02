@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/bigfoot/static/css/main.9be2a20f.chunk.css",
-    "main.js": "/bigfoot/static/js/main.11c7b85b.chunk.js",
-    "main.js.map": "/bigfoot/static/js/main.11c7b85b.chunk.js.map",
+    "main.js": "/bigfoot/static/js/main.51e9a297.chunk.js",
+    "main.js.map": "/bigfoot/static/js/main.51e9a297.chunk.js.map",
     "runtime-main.js": "/bigfoot/static/js/runtime-main.734db53a.js",
     "runtime-main.js.map": "/bigfoot/static/js/runtime-main.734db53a.js.map",
     "static/css/2.4c97ca4f.chunk.css": "/bigfoot/static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.ec9ad13f.chunk.js": "/bigfoot/static/js/2.ec9ad13f.chunk.js",
-    "static/js/2.ec9ad13f.chunk.js.map": "/bigfoot/static/js/2.ec9ad13f.chunk.js.map",
+    "static/js/2.e78793a7.chunk.js": "/bigfoot/static/js/2.e78793a7.chunk.js",
+    "static/js/2.e78793a7.chunk.js.map": "/bigfoot/static/js/2.e78793a7.chunk.js.map",
     "index.html": "/bigfoot/index.html",
     "static/css/2.4c97ca4f.chunk.css.map": "/bigfoot/static/css/2.4c97ca4f.chunk.css.map",
     "static/css/main.9be2a20f.chunk.css.map": "/bigfoot/static/css/main.9be2a20f.chunk.css.map",
-    "static/js/2.ec9ad13f.chunk.js.LICENSE.txt": "/bigfoot/static/js/2.ec9ad13f.chunk.js.LICENSE.txt",
+    "static/js/2.e78793a7.chunk.js.LICENSE.txt": "/bigfoot/static/js/2.e78793a7.chunk.js.LICENSE.txt",
     "static/media/App.css": "/bigfoot/static/media/bigfoot-pointer.c4e726eb.png",
     "static/media/bigfoot.3045098c.png": "/bigfoot/static/media/bigfoot.3045098c.png",
     "static/media/roar.d34f8a59.wav": "/bigfoot/static/media/roar.d34f8a59.wav"
@@ -19,8 +19,8 @@
   "entrypoints": [
     "static/js/runtime-main.734db53a.js",
     "static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.ec9ad13f.chunk.js",
+    "static/js/2.e78793a7.chunk.js",
     "static/css/main.9be2a20f.chunk.css",
-    "static/js/main.11c7b85b.chunk.js"
+    "static/js/main.51e9a297.chunk.js"
   ]
 }
