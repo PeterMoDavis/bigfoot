@@ -1,5 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl, { GeolocateControl } from "mapbox-gl";
+import bigfoot from "./bigfoot.png";
+import roar from "./roar.wav";
 
 import "./App.css";
 
@@ -7,7 +9,7 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoicG1vZGF2aXMiLCJhIjoiY2twZDAzam80MGl4eDJucjNja3F0eWt6YyJ9.pDCggo-HzdU4pDYxaUT3Tw";
 
 const Map = () => {
-  const [zoom, setZoom] = useState(2);
+  const [zoom, setZoom] = useState(3);
 
   let bigfootSightings = [];
   const getBigfoot = () => {
@@ -43,15 +45,25 @@ const Map = () => {
 
   const userPosition = async () => {
     const locationButton = document.querySelector(".mapboxgl-ctrl-geolocate");
+    const audio = new Audio(roar);
     const click = new Event("click");
     locationButton.dispatchEvent(click);
+    document.querySelector("body").style.backgroundColor = "red";
     document.querySelector("button").innerText = "Loading...";
+    document.querySelector("#bigfoot").style.display = "block";
+    document.querySelector("#bigfoot").style.opacity = "0";
+    document.querySelector("#bigfoot").style.opacity = ".8";
+
     const location = await getCoordinates();
+
     document.querySelector("button").innerText = "Here we are.";
+    document.querySelector("#bigfoot").style.opacity = ".0";
+    audio.play();
     setTimeout(() => {
       document.querySelector("button").innerText = "Get Encounters";
+      document.querySelector("body").style.backgroundColor = "white";
+      document.querySelector("#bigfoot").style.display = "none";
     }, 3000);
-
     console.log(bigfootSightings);
   };
 
@@ -115,6 +127,7 @@ const Map = () => {
       </div>
 
       <div className="map-container mt-3" ref={mapContainerRef} />
+      <img src={bigfoot} alt="" id="bigfoot" />
     </div>
   );
 };
