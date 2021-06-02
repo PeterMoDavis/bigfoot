@@ -6,35 +6,31 @@ import "./App.css";
 mapboxgl.accessToken =
   "pk.eyJ1IjoicG1vZGF2aXMiLCJhIjoiY2twZDAzam80MGl4eDJucjNja3F0eWt6YyJ9.pDCggo-HzdU4pDYxaUT3Tw";
 
-const geojson = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [-77.032, 38.913],
-      },
-    },
-  ],
-};
-
 const Map = () => {
-  const [longitude, setLongitude] = useState(-95.712891);
-  const [latitude, setLatitude] = useState(37.09024);
   const [zoom, setZoom] = useState(2);
 
-  const setCoordinates = async () => {
-    //clicks the mapbox button
-    let geoButton = document.querySelector(".mapboxgl-ctrl-geolocate");
-    geoButton.dispatchEvent(new Event("click"));
-    //clickes the main button
-    let button = document.querySelector("button");
-    button.innerText = "Loading...";
-    //awaits coordinates
-    const location = await getCoordinates();
-    button.innerText = "Get Encounters";
-    console.log(location);
+  let bigfootSightings = [];
+  const getBigfoot = () => {
+    fetch(
+      "https://services2.arcgis.com/sJvSsHKKEOKRemAr/arcgis/rest/services/Bigfoot%20Locations/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        bigfootSightings = data.features.map((each) => {
+          return {
+            description: each.attributes.descriptio,
+            geometry: {
+              coordinates: [each.geometry.x, each.geometry.y],
+            },
+          };
+        });
+      })
+      .then(() => {
+        makeMap(zoom);
+      });
+    console.log(bigfootSightings);
   };
 
   const getCoordinates = () => {
@@ -43,17 +39,41 @@ const Map = () => {
     });
   };
 
-  useEffect(() => {
-    makeMap(zoom);
-  }, [longitude, latitude]);
+  const userPosition = async () => {
+    const locationButton = document.querySelector(".mapboxgl-ctrl-geolocate");
+    const click = new Event("click");
+    locationButton.dispatchEvent(click);
+    document.querySelector("button").innerText = "Loading...";
+    const location = await getCoordinates();
+    document.querySelector("button").innerText = "Here we are.";
+    setTimeout(() => {
+      document.querySelector("button").innerText = "Get Encounters";
+    }, 3000);
 
-  const makeMap = (magnify) => {
+    console.log("hello");
+  };
+
+  useEffect(async () => {
+    await getBigfoot();
+    console.log(bigfootSightings);
+  }, []);
+
+  const makeMap = (magnify, lat = -95.712891, lon = 37.09024) => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       // See style options here: https://docs.mapbox.com/api/maps/#styles
       style: "mapbox://styles/pmodavis/ckpeh637y08xj18qrb14covxq",
-      center: [longitude, latitude],
+      center: [lat, lon],
       zoom: magnify,
+    });
+
+    bigfootSightings.forEach(function (marker) {
+      // create a HTML element for each feature
+      var el = document.createElement("div");
+      el.className = "marker";
+
+      // make a marker for each feature and add to the map
+      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
     });
 
     // add navigation control (the +/- zoom buttons)
@@ -68,14 +88,7 @@ const Map = () => {
       showAccuracyCircle: true,
       trackUserLocation: true,
     });
-    geojson.features.forEach(function (marker) {
-      // create a HTML element for each feature
-      var el = document.createElement("div");
-      el.className = "marker";
 
-      // make a marker for each feature and add to the map
-      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
-    });
     // clean up on unmount
     return () => map.remove();
   };
@@ -88,7 +101,7 @@ const Map = () => {
   return (
     <div className="d-flex flex-column align-items-center main-container">
       <div className="text-center">
-        <button onClick={() => setCoordinates()}>Get Encounters</button>
+        <button onClick={() => userPosition()}>Get Encounters</button>
       </div>
 
       <div className="map-container mt-3" ref={mapContainerRef} />

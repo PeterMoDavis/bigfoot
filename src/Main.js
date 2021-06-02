@@ -15,13 +15,7 @@ class Main extends Component {
       .then((res) => {
         return res.json();
       })
-      .then((data) => {
-        console.log(data);
-      });
-  }
-
-  componentDidMount() {
-    this.getBigfoot();
+      .then((data) => {});
   }
 
   render() {
