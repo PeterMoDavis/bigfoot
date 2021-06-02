@@ -21,11 +21,13 @@ const Map = () => {
         bigfootSightings = data.features.map((each) => {
           return {
             description: each.attributes.descriptio,
+            title: each.attributes.name,
             geometry: {
               coordinates: [each.geometry.x, each.geometry.y],
             },
           };
         });
+        console.log(data);
       })
       .then(() => {
         makeMap(zoom);
@@ -50,7 +52,7 @@ const Map = () => {
       document.querySelector("button").innerText = "Get Encounters";
     }, 3000);
 
-    console.log("hello");
+    console.log(bigfootSightings);
   };
 
   useEffect(async () => {
@@ -73,7 +75,15 @@ const Map = () => {
       el.className = "marker";
 
       // make a marker for each feature and add to the map
-      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+      new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML(
+              "<h3>" + marker.title + "</h3><p>" + marker.description + "</p>"
+            )
+        )
+        .addTo(map);
     });
 
     // add navigation control (the +/- zoom buttons)

@@ -20,7 +20,7 @@ button:active {
   box-shadow: 0 3px 3px gray;
 }
 
-/* .mapboxgl-ctrl-bottom-left {
+.mapboxgl-ctrl-bottom-left {
   display: none;
 }
 .mapboxgl-ctrl-top-right {
@@ -28,10 +28,10 @@ button:active {
 }
 .mapboxgl-ctrl-bottom-right {
   display: none;
-} */
+}
 
 .marker {
-  background-image: url("mapbox-icon.png");
+  background-image: url("bigfoot.png");
   background-size: cover;
   width: 50px;
   height: 50px;
@@ -41,4 +41,13 @@ button:active {
 
 .map-container {
   width: 80vw;
+}
+
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
 }
