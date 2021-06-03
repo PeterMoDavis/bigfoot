@@ -36,7 +36,7 @@ button {
   background-color: white;
   padding: 10px 10px;
   box-shadow: 0 10px 10px gray;
-  transition: all 0.1s;
+  transition: all 0.05s;
 }
 
 button:active {
@@ -44,7 +44,7 @@ button:active {
   box-shadow: 0 3px 3px gray;
 }
 
-/* .mapboxgl-ctrl-bottom-left {
+.mapboxgl-ctrl-bottom-left {
   display: none;
 }
 .mapboxgl-ctrl-top-right {
@@ -52,7 +52,7 @@ button:active {
 }
 .mapboxgl-ctrl-bottom-right {
   display: none;
-} */
+}
 
 .marker {
   background-image: url("bigfoot-pointer.png");

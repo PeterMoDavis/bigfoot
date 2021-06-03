@@ -46,6 +46,7 @@ const Map = () => {
   const userPosition = async () => {
     const locationButton = document.querySelector(".mapboxgl-ctrl-geolocate");
     const audio = new Audio(roar);
+    audio.volume = 0.05;
     const click = new Event("click");
     locationButton.dispatchEvent(click);
     document.querySelector("body").style.backgroundColor = "#830303";
@@ -126,6 +127,7 @@ const Map = () => {
       <div className="text-center">
         <button onClick={() => userPosition()}>Get Encounters</button>
       </div>
+      <p className="mt-3">Turn Down Volume!</p>
       <div className="bigfoot-parent">
         <span>
           <div
