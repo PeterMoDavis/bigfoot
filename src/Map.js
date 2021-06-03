@@ -12,9 +12,11 @@ const Map = () => {
   const [zoom, setZoom] = useState(3);
 
   let bigfootSightings = [];
+  let bigfootSightings2 = [];
+  let monsters = [];
   const getBigfoot = () => {
     fetch(
-      "https://services2.arcgis.com/sJvSsHKKEOKRemAr/arcgis/rest/services/Bigfoot%20Locations/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json&resultOffset=0&resultRecordCount=4000"
+      "https://services2.arcgis.com/sJvSsHKKEOKRemAr/arcgis/rest/services/Bigfoot%20Locations/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json&resultOffset=0&resultRecordCount=2000"
     )
       .then((res) => {
         return res.json();
@@ -30,8 +32,26 @@ const Map = () => {
           };
         });
         console.log(data);
+      });
+    fetch(
+      "https://services2.arcgis.com/sJvSsHKKEOKRemAr/arcgis/rest/services/Bigfoot%20Locations/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json&resultOffset=2000&resultRecordCount=3200"
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        bigfootSightings2 = data.features.map((each) => {
+          return {
+            description: each.attributes.descriptio,
+            title: each.attributes.name,
+            geometry: {
+              coordinates: [each.geometry.x, each.geometry.y],
+            },
+          };
+        });
       })
       .then(() => {
+        monsters = [...bigfootSightings, ...bigfootSightings2];
         makeMap();
       });
     console.log(bigfootSightings);
@@ -83,7 +103,7 @@ const Map = () => {
       zoom: 3,
     });
 
-    bigfootSightings.forEach(function (marker) {
+    monsters.forEach(function (marker) {
       // create a HTML element for each feature
       var el = document.createElement("div");
       el.className = "marker";
