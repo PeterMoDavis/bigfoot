@@ -14,7 +14,7 @@ const Map = () => {
   let bigfootSightings = [];
   const getBigfoot = () => {
     fetch(
-      "https://services2.arcgis.com/sJvSsHKKEOKRemAr/arcgis/rest/services/Bigfoot%20Locations/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json"
+      "https://services2.arcgis.com/sJvSsHKKEOKRemAr/arcgis/rest/services/Bigfoot%20Locations/FeatureServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json&resultOffset=0&resultRecordCount=4000"
     )
       .then((res) => {
         return res.json();
