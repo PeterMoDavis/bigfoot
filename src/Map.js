@@ -52,6 +52,8 @@ const Map = () => {
       })
       .then(() => {
         monsters = [...bigfootSightings, ...bigfootSightings2];
+      })
+      .then(() => {
         makeMap();
       });
     console.log(bigfootSightings);
